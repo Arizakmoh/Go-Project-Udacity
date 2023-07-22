@@ -1,63 +1,105 @@
+/*Project: CRM Backend Best Practices Success CriteriaSpecifications
+
+Set up a proper Go environment The project requires only a simple go run command to launch the application.
+
+Document the project in the README The project README contains a description of the project, and also includes instructions for installation, launch, and usage.
+
+Organize and write clean code Syntax and semantics of language features (e.g., functions, variables, loops, etc.) are well-formed and free from errors or warnings in the console
+
+Data structures, handlers, routes, imports, and other assets are organized logically (e.g., grouped together) and are easy to find
+
+Build an intuitive user experience Users can interact with the application (i.e., make API requests) by simply using Postman or cURL.
+
+Data Success CriteriaSpecifications Create a Customer struct Each customer includes:
+
+ID,Name,Role,Email,Phone
+
+Create a mock "database" to store customer data Customers are stored appropriately in a basic data structure (e.g., slice, map, etc.) that represents a "database."
+
+Seed the database with initial customer data The "database" data structure is non-empty. That is, prior to any CRUD operations performed by the user (e.g., adding a customer), the database includes at least three existing (i.e., "hard-coded") customers.
+
+Assign unique IDs to customers in the database Customers in the database have unique ID values (i.e., no two customers have the same ID value).
+
+Server Success CriteriaSpecifications Serve the API locally
+
+The API can be accessed via localhost.
+
+Create RESTful server endpoints for CRUD operations
+
+The application handles the following 5 operations for customers in the "database":
+
+Getting a single customer through a /customers/{id} path
+
+Getting all customers through a the /customers path
+
+Creating a customer through a /customers path
+
+Updating a customer through a /customers/{id} path
+
+Deleting a customer through a /customers/{id} path
+
+Each RESTful route is associated with the correct HTTP verb.
+
+Return JSON in server responses
+
+The application leverages the encoding/json package to return JSON values (i.e., not text, etc.) to the user.
+
+Serve static HTML at the home ("/") route
+
+The home route is a client API endpoint, and includes a brief overview of the API (e.g., available endpoints). Note: This is the only route that does not return a JSON response.
+
+Set up and configure a router
+
+The application uses a router (e.g., gorilla/mux, http.ServeMux, etc.) that supports HTTP method-based routing and variables in URL paths.
+
+Create and assign handlers for requests
+
+The Handler interface is used to handle HTTP requests sent to defined paths. There are five routes that return a JSON response, and are each is registered to a dedicated handler:
+
+getCustomers()
+
+getCustomer()
+
+addCustomer()
+
+updateCustomer()
+
+deleteCustomer()
+
+Includes basic error handling for non-existent customers
+
+If the user queries for a customer that doesn't exist (i.e., when getting a customer, updating a customer, or deleting a customer), the server response includes:
+
+A 404 status code in the header
+
+null or an empty JSON object literal or an error message
+
+Set headers to indicate the proper media type
+
+An appropriate Content-Type header is sent in server responses.
+
+Read request data
+
+The application leverages the io/ioutil package to read I/O (e.g., request) data.
+
+Parse JSON data
+
+The applications leverages the encoding/json package to parse JSON data.
+
+Suggestions to Make Your Project Stand Out
+
+Create an additional endpoint that updates customer values in a batch (i.e., rather than for a single customer).
+
+Upgrade the mock database to a real database (e.g., PostgreSQL).
+
+Deploy the API to the web.*/
+
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 )
 
-// Customer struct
-type Customer struct {
-	ID      int
-	Name    string
-	Email   string
-	Address string
-}
-
-// in memory database
-var customers []Customer
-
-// Handler functions
-
-// Get All Customer Handler
-func getCustomers(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customers)
-}
-
-// Get Specific Customer Handler
-func getCustomer(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	params := mux.Vars(r)
-	id, _ := strconv.Atoi(params["id"])
-
-	for _, c := range customers {
-		if c.ID == id {
-			json.NewEncoder(w).Encode(c)
-			w.WriteHeader(http.StatusOK)
-		} else {
-			w.WriteHeader(http.StatusNotFound)
-		}
-	}
-}
-
 func main() {
-	// Seed with some initial data
-	customers = append(customers, Customer{
-		ID:    1,
-		Name:  "ABDIRIZAK ABDULLAHI",
-		Email: "abdirizak@example.com",
-	})
-	customers = append(customers, Customer{
-		ID:    2,
-		Name:  "MOHAMED WARSAME",
-		Email: "moha@example.com",
-	})
-
-	for _, cust := range customers {
-		fmt.Println(cust)
-	}
+	fmt.Println("Test")
 }
